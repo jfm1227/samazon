@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Samazon</title>
+    <title><%= ENV["APP_NAME"] %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/ef85f8f4b9.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
-    <%= yield %>
+    <%= render partial: 'layouts/header' %>
+   
+    <main class="py-4 mb-5">
+      <% if notice %><p class="alert alert-warning"><%= notice %></div><% end %>
+      <% if alert %><p class="alert alert-danger"><%= alert %></p><% end %>
+      <%= yield %>
+    </main>
   </body>
 </html>
