@@ -88,9 +88,11 @@ ActiveRecord::Schema.define(version: 2022_01_18_145856) do
 
   create_table "shopping_carts", force: :cascade do |t|
     t.boolean "buy_flag", default: false, null: false
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "session_id"
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
 end
