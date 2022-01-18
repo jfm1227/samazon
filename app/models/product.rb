@@ -1,17 +1,17 @@
 class Product < ApplicationRecord
   belongs_to :category
-  
+
   has_one_attached :image
 
- 
- 
+
+
 
  extend DisplayList
 
  scope :on_category, -> (category) { where(category_id: category) }
   scope :sort_order, -> (order) { order(order) }
 
-  scope :category_products, -> (category, page) { 
+  scope :category_products, -> (category, page) {
     on_category(category).
     display_list(page)
   }
@@ -19,7 +19,7 @@ class Product < ApplicationRecord
 scope :search_for_id_and_name, -> (keyword) {
      where("name LIKE ?", "%#{keyword}%").
      or(where("id LIKE ?", "%#{keyword}%"))
-   }  
+   }
 
 
   scope :sort_products, -> (sort_order, page) {
@@ -27,18 +27,18 @@ scope :search_for_id_and_name, -> (keyword) {
     sort_order(sort_order[:sort]).
     display_list(page)
   }
- 
- 
-  scope :sort_list, -> { 
+
+
+  scope :sort_list, -> {
     {
-      "並び替え" => "", 
+      "並び替え" => "",
       "価格の安い順" => "price asc",
-      "価格の高い順" => "price desc", 
-      "出品の古い順" => "updated_at asc", 
+      "価格の高い順" => "price desc",
+      "出品の古い順" => "updated_at asc",
       "出品の新しい順" => "updated_at desc"
     }
   }
-  
+
   scope :recommend_products, -> (number) { where(recommended_flag: true).take(number) }
   scope :recently_products, -> (number) { order(created_at: "desc").take(number) }
 
@@ -47,7 +47,7 @@ def self.import_csv(file)
      update_products = []
      CSV.foreach(file.path, headers: true, encoding: "Shift_JIS:UTF-8") do |row|
        row_to_hash = row.to_hash
-       byebug
+
        if row_to_hash[:id].present?
          update_product = find(id: row_to_hash[:id])
          update_product.attributes = row.to_hash.slice!(csv_attributes)

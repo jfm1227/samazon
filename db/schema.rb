@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_16_133628) do
+ActiveRecord::Schema.define(version: 2022_01_18_145856) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -88,10 +88,9 @@ ActiveRecord::Schema.define(version: 2021_12_16_133628) do
 
   create_table "shopping_carts", force: :cascade do |t|
     t.boolean "buy_flag", default: false, null: false
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_shopping_carts_on_user_id"
+    t.string "session_id"
   end
 
 end
