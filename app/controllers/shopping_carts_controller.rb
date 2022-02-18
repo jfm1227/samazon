@@ -1,8 +1,12 @@
 class ShoppingCartsController < ApplicationController
-  before_action :set_cart, only: %i[index create destroy]
+  SETTLEMENT_AMOUNT_RANGE = 50..9_999_999.freeze
+
+  before_action :set_cart, only: %i[index create destroy remove_shopping_cart_item]
 
   def index
-    @user_cart_items = ShoppingCartItem.user_cart_items(@shopping_cart)
+    @shopping_cart_items = ShoppingCartItem.user_cart_items(@shopping_cart)
+    total = @shopping_cart.total.fractional / 100
+    @is_available_buy = SETTLEMENT_AMOUNT_RANGE.include?(total)
   end
 
   def show
@@ -19,9 +23,24 @@ class ShoppingCartsController < ApplicationController
   end
 
   def destroy
+    total = @shopping_cart.total.fractional / 100
+    raise '決済可能な金額ではありません' unless SETTLEMENT_AMOUNT_RANGE.include?(total)
+
+    Payjp.api_key = ENV['PAYJP_PUBLIC_KEY']
+    Payjp::Charge.create(
+      amount: total,
+      card: params['payjp-token'],
+      currency: 'jpy'
+    )
     @shopping_cart.buy_flag = true
     @shopping_cart.save
     redirect_to cart_users_url
+  end
+
+  def remove_shopping_cart_item
+    @product = Product.find_by(id: params[:product_id])
+    @shopping_cart.remove(@product)
+    redirect_to cart_users_path
   end
 
   private

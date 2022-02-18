@@ -1,5 +1,3 @@
-
-
 <div class="container d-flex justify-content-center mt-3">
   <div class="w-75">
     <h1>ショッピングカート</h1>
@@ -18,27 +16,26 @@
     <hr>
 
     <div class="row">
-      <% @user_cart_items.each do |user_cart_item| %>
-        <% product = Product.find(user_cart_item.item_id) %>
+      <% @shopping_cart_items.each do |shopping_cart_item| %>
+        <% product = Product.find(shopping_cart_item.item_id) %>
         <div class="col-md-2 mt-2">
+          <%= link_to 'x', remove_shopping_cart_item_shopping_carts_path(product_id: product.id), method: :patch %>
           <%= link_to product_path(product) do %>
-
-              <% if product.image.attached? %>
-               <%= image_tag product.image, class: "img-fuild w-100" %>
-             <% else %>
-               <%= image_tag "/images/dummy.png", class: "img-fuild w-100" %>
-             <% end %>
-
+            <% if product.image.attached? %>
+              <%= image_tag product.image, class: "img-fuild w-100" %>
+            <% else %>
+              <%= image_tag "/images/dummy.png", class: "img-fuild w-100" %>
+            <% end %>
           <% end %>
         </div>
         <div class="col-md-6 mt-4">
           <h3 class="mt-4"><%= product.name %></h3>
         </div>
         <div class="col-md-2">
-          <h3 class="w-100 mt-4"><%= user_cart_item.quantity %></h3>
+          <h3 class="w-100 mt-4"><%= shopping_cart_item.quantity %></h3>
         </div>
         <div class="col-md-2">
-          <h3 class="w-100 mt-4">￥<%= user_cart_item.price_cents * user_cart_item.quantity %></h3>
+          <h3 class="w-100 mt-4">￥<%= shopping_cart_item.price_cents * shopping_cart_item.quantity %></h3>
         </div>
       <% end %>
     </div>
@@ -59,28 +56,26 @@
       </div>
     </div>
 
-<%= form_with url: cart_users_path , method: :delete, class: "d-flex justify-content-end mt-3" do |f| %>
+    <%= form_with url: cart_users_path, method: :delete, class: "d-flex justify-content-end mt-3" do |f| %>
       <%= link_to "買い物を続ける", products_path, class: "btn samazon-favorite-button border-dark text-dark mr-3" %>
 
-      <div class="btn samazon-submit-button" data-toggle="modal" data-target="#buy-confirm-modal">購入を確定する</div>
-       <div class="modal fade" id="buy-confirm-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-         <div class="modal-dialog">
-           <div class="modal-content">
-             <div class="modal-header">
-               <h5 class="modal-title" id="staticBackdropLabel">購入を確定しますか？</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
-                 <span aria-hidden="true">&times;</span>
-               </button>
-             </div>
-             <div class="modal-footer">
-               <button type="button" class="btn samazon-favorite-button border-dark text-dark" data-dismiss="modal">閉じる</button>
-               <button type="submit" class="btn samazon-submit-button">購入</button>
-             </div>
-           </div>
-         </div>
-       </div>
-
+      <button class="btn samazon-submit-button" data-toggle="modal" data-target="#buy-confirm-modal" <%= @is_available_buy ? '' : 'disabled' %>>購入を確定する</button>
+      <div class="modal fade" id="buy-confirm-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">購入を確定しますか？</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="閉じる">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn samazon-favorite-button border-dark text-dark" data-dismiss="modal">閉じる</button>
+              <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key=<%= ENV['PAYJP_PUBLIC_KEY'] %>></script>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
-
   </div>
 </div>
