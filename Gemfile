@@ -53,13 +53,16 @@ gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'mast
 gem 'acts_as_shopping_cart'
 # 複数のレコードを一括で登録、更新できる
 gem 'activerecord-import'
-
+# クレジットカード決済機能を導入できる
+gem 'payjp'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+
+  gem 'rubocop', require: false
 end
 
 group :development do
