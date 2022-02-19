@@ -39,7 +39,8 @@ class ShoppingCartsController < ApplicationController
 
   def remove_shopping_cart_item
     @product = Product.find_by(id: params[:product_id])
-    @shopping_cart.remove(@product)
+    quantity = ShoppingCartItem.user_cart_items(@shopping_cart).find_by(item_id: @product.id).quantity
+    @shopping_cart.remove(@product, quantity)
     redirect_to cart_users_path
   end
 
