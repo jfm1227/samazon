@@ -1,47 +1,32 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
-      <a class="navbar-brand" href="/"><%= ENV["APP_NAME"] %></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Right Side Of Navbar -->
-          <ul class="navbar-nav ml-auto">
-          <!-- user_signed_in? はユーザがログインしているか調べるdeviseのHelperメソッド -->
-          
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
-
-
-<header>
   <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm samazon-header-container">
-    <a class="navbar-brand" href="/"><%= ENV["APP_NAME"] %></a>
-    
-    <form class="form-inline">
+    <%= link_to root_path do %>
+      <%= image_tag "/images/logo.jpg" %>
+    <% end %>
+
+    <%= form_with url: products_path, method: :get, local: true, class: 'form-inline' do |f| %>
       <div class="form-group">
-        <input class="form-control samazon-header-search-input">
+        <%= f.text_field :keyword, class: 'form-control samazon-header-search-input' %>
       </div>
       <div class="input-group">
-        <button type="submit" class="btn samazon-header-search-button"><i class="fas fa-search samazon-header-search-icon"></i></button>
+        <%= f.button type: :submit, class: 'btn samazon-header-search-button' do %>
+          <i class="fas fa-search samazon-header-search-icon"></i>
+        <% end %>
       </div>
-    </form>
+    <% end %>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-      <!-- Right Side Of Navbar -->
-       <li class="nav-item mr-5">
-           </li>
       <ul class="navbar-nav ml-auto mr-5 mt-2">
-      <!-- user_signed_in? はユーザがログインしているか調べるdeviseのHelperメソッド -->
-     </ul> 
+        <li class="nav-item mr-5">
+          <%= link_to cart_users_path, class: "nav-link" do %>
+            <i class="fas fa-shopping-cart"></i>
+          <% end %>
+        </li>
+      </ul>
     </div>
   </nav>
 </header>

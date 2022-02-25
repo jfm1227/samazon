@@ -42,6 +42,8 @@ gem 'devise'
 gem 'bootstrap', '~> 4.6.0'
 gem 'jquery-rails'
 
+# 環境変数を使用できる
+gem 'dotenv-rails'
 
 # ページネーションを実装できる
 gem 'kaminari'
